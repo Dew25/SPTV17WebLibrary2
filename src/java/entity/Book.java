@@ -25,7 +25,7 @@ public class Book implements Serializable {
     private Long id;
     private String caption;
     private String author;
-    private int publisedYear;
+    private int publishedYear;
     private String cover;
     private String text;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -35,10 +35,10 @@ public class Book implements Serializable {
     public Book() {
     }
 
-    public Book(String caption, String author, int publisedYear, String cover, String text) {
+    public Book(String caption, String author, int publishedYear, String cover, String text) {
         this.caption = caption;
         this.author = author;
-        this.publisedYear = publisedYear;
+        this.publishedYear = publishedYear;
         this.cover = cover;
         this.text = text;
         this.date = new Date();
@@ -69,12 +69,12 @@ public class Book implements Serializable {
         this.author = author;
     }
 
-    public int getPublisedYear() {
-        return publisedYear;
+    public int getPublishedYear() {
+        return publishedYear;
     }
 
-    public void setPublisedYear(int publisedYear) {
-        this.publisedYear = publisedYear;
+    public void setPublishedYear(int publishedYear) {
+        this.publishedYear = publishedYear;
     }
 
     public String getCover() {
@@ -95,7 +95,7 @@ public class Book implements Serializable {
 
     @Override
     public String toString() {
-        return "Book{" + "id=" + id + ", caption=" + caption + ", author=" + author + ", publisedYear=" + publisedYear + ", cover=" + cover + ", text=" + text + ", date=" + date + ", active=" + active + '}';
+        return "Book{" + "id=" + id + ", caption=" + caption + ", author=" + author + ", publishedYear=" + publishedYear + ", cover=" + cover + ", text=" + text + ", date=" + date + ", active=" + active + '}';
     }
 
     @Override
@@ -104,7 +104,7 @@ public class Book implements Serializable {
         hash = 59 * hash + Objects.hashCode(this.id);
         hash = 59 * hash + Objects.hashCode(this.caption);
         hash = 59 * hash + Objects.hashCode(this.author);
-        hash = 59 * hash + this.publisedYear;
+        hash = 59 * hash + this.publishedYear;
         hash = 59 * hash + Objects.hashCode(this.cover);
         hash = 59 * hash + Objects.hashCode(this.text);
         return hash;
@@ -122,7 +122,7 @@ public class Book implements Serializable {
             return false;
         }
         final Book other = (Book) obj;
-        if (this.publisedYear != other.publisedYear) {
+        if (this.publishedYear != other.publishedYear) {
             return false;
         }
         if (!Objects.equals(this.caption, other.caption)) {

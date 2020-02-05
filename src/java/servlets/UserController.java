@@ -8,16 +8,20 @@ package servlets;
 import entity.Book;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import jsonCreator.BookJsonBuilder;
 import session.BookFacade;
 
 /**
@@ -47,19 +51,23 @@ public class UserController extends HttpServlet {
         switch (path) {
             case "/getListNewBooks":
                 List<Book> listNewBooks = bookFacade.findNewBooks();
+                BookJsonBuilder bookJsonBuilder = new BookJsonBuilder();
                 JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
                 for(Book book : listNewBooks){
-                    objectBuilder.add(book.getId());
+                    arrayBuilder.add(bookJsonBuilder.createJsonObject(book));
                 }
-                arrayBuilder.;
                 
+                JsonObjectBuilder jsonBooksBuilder = Json.createObjectBuilder();
+                jsonBooksBuilder.add("books", arrayBuilder);
+                try(Writer writer =new StringWriter()) {
+                  Json.createWriter(writer).write(jsonBooksBuilder.build());
+                  json = writer.toString(); 
+                }
                 break;
-            
         }
         
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println(json);
+          out.println(json);        
         }
     }
 

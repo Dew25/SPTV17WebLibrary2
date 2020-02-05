@@ -32,6 +32,7 @@ public class BookFacade extends AbstractFacade<Book> {
         super(Book.class);
     }
 
+    @SuppressWarnings("unchecked")
     public List<Book> findNewBooks() {
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DATE,-1);

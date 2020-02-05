@@ -1,4 +1,5 @@
 "use strict";
+
 //navigation menu
 document.getElementById('menu1').onclick=function (){
     toogleActiveLink("menu1");
@@ -55,13 +56,13 @@ function json(response) {
 function printListNewBooks(data){
     let content = document.getElementById('content');
     let cards = '';
-    for(let i = 0; i < data.length; i++){
+    for(let i = 0; i < data.books.length; i++){
         cards +=
         `<div class="card w-25" >
             <div class="card-body">
-                <h5 class="card-title">${data[i].name}</h5>
-                <p class="card-text">${data[i].author}. ${data[i].publishedYear}</p>
-                <a href="buyBook?bookId=${data[i].id}" class="btn btn-primary">Купить книгу</a>
+                <h5 class="card-title">${data.books[i].caption}</h5>
+                <p class="card-text">${data.books[i].author}. ${data.books[i].publishedYear}</p>
+                <a href="buyBook?bookId=${data.books[i].id}" class="btn btn-primary">Купить книгу</a>
             </div>
         </div>`;
     }
