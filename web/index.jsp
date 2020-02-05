@@ -2,7 +2,7 @@
 <div class="row justify-content-center">
         <h1>Сетевая библиотека!</h1>
 </div>
-<div class="row p-5 justify-content-between">
+<div id="content" class="row p-5 justify-content-between">
     <div class="card w-25" >
         Хелло
     </div>
