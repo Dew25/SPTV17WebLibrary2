@@ -35,7 +35,7 @@ public class BookFacade extends AbstractFacade<Book> {
     @SuppressWarnings("unchecked")
     public List<Book> findNewBooks() {
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.DATE,-1);
+        c.add(Calendar.DATE,-2);
         try {
             return em.createQuery("SELECT b FROM Book b WHERE b.date > :date")
                     .setParameter("date", c.getTime())
