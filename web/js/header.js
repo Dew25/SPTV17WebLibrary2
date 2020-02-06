@@ -1,5 +1,5 @@
 "use strict";
-
+import login from 'js/login.js';
 //navigation menu - нажатие на кнопку "Новые книги"
 document.getElementById('menu1').onclick=function (){
     toogleActiveLink("menu1"); // делает текст нажатой ссылки жирным (css класс "active")

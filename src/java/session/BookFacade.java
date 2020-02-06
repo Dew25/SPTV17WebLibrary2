@@ -7,7 +7,6 @@ package session;
 
 import entity.Book;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -32,7 +31,7 @@ public class BookFacade extends AbstractFacade<Book> {
         super(Book.class);
     }
 
-    @SuppressWarnings("unchecked")
+   
     public List<Book> findNewBooks() {
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DATE,-2);
