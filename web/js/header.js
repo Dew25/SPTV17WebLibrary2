@@ -1,18 +1,9 @@
 "use strict";
-//import showLogin from './login.js';
+import {getHttp} from './http.js';
 //navigation menu - нажатие на кнопку "Новые книги"
 document.getElementById('menu1').onclick=function (){
     toogleActiveLink("menu1"); // делает текст нажатой ссылки жирным (css класс "active")
-    fetch("getListNewBooks")// возвращает ожидание (ответ на посланный запрос), 
-                            // которое дальше обрабатывается по цепочке
-          .then(status)  
-          .then(json)  
-          .then(function(data) {  // data содержит ответ сервера преобразованный в js объект 
-            printListNewBooks(data); // запускается функция с параметром
-            console.log('Request succeeded with JSON response', data);  //вывод в консоль для дебага
-          }).catch(function(error) { //срабатывает при ошибке пришедшей с сервера
-            console.log('Request failed', error);  
-          });
+    getHttp('getListNewBooks',printListNewBooks);
 };
 document.getElementById('menu2').onclick=function (){
     toogleActiveLink("menu2");
@@ -38,20 +29,7 @@ function toogleActiveLink(elementId){
     }
 }
 
-//Возвращает ожидание при статусе ответа 200 - 300, иначе возвращает ошибку,
-// которую прислал сервер в ответе
-function status(response) {  
-  if (response.status >= 200 && response.status < 300) {  
-    return Promise.resolve(response)  
-  } else {  
-    return Promise.reject(new Error(response.statusText))  
-  }  
-}
 
-// Получает ответ в формате Json и формирует из него js объект
-function json(response) {  
-  return response.json();
-};
 
 function printListNewBooks(data){
     let content = document.getElementById('content');
