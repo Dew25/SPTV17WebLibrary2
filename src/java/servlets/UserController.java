@@ -6,6 +6,7 @@
 package servlets;
 
 import entity.Book;
+import entity.Customer;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -22,17 +23,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import jsoncreator.BookJsonBuilder;
+import jsoncreator.CustomerJsonBuilder;
 import session.BookFacade;
+import session.CustomerFacade;
 
 /**
  *
  * @author user
  */
 @WebServlet(name = "UserController", loadOnStartup = 1, urlPatterns = {
-    "/getListNewBooks"
+    "/getListNewBooks",
+    "/getListCustomers",
+    
 })
 public class UserController extends HttpServlet {
     @EJB private BookFacade bookFacade;
+    @EJB private CustomerFacade customerFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -56,11 +62,24 @@ public class UserController extends HttpServlet {
                 for(Book book : listNewBooks){
                     arrayBuilder.add(bookJsonBuilder.createJsonObject(book));
                 }
-                
                 JsonObjectBuilder jsonBooksBuilder = Json.createObjectBuilder();
                 jsonBooksBuilder.add("books", arrayBuilder);
                 try(Writer writer =new StringWriter()) {
                   Json.createWriter(writer).write(jsonBooksBuilder.build());
+                  json = writer.toString(); 
+                }
+                break;
+            case "/getListCustomers":
+                List<Customer> listCustomers = customerFacade.findAll();
+                arrayBuilder = Json.createArrayBuilder();
+                CustomerJsonBuilder cjb = new CustomerJsonBuilder();
+                for(Customer c : listCustomers){
+                    arrayBuilder.add(cjb.createJsonObject(c));
+                }
+                JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+                jsonObjectBuilder.add("customers", arrayBuilder);
+                try(Writer writer =new StringWriter()) {
+                  Json.createWriter(writer).write(jsonObjectBuilder.build());
                   json = writer.toString(); 
                 }
                 break;

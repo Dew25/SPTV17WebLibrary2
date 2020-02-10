@@ -2,14 +2,14 @@
 <div class="row justify-content-center">
     <h1>Сетевая библиотека!</h1>
 </div>
-<div id="content" class="row p-5 justify-content-between">
-    <div class="card w-25" >
+<div id="content" class="row p-5 justify-content-center">
+    <div class="card w-25 m-3" >
         Хелло
     </div>
-    <div class="card w-25" >
+    <div class="card w-25 m-3" >
         Хелло
     </div>
-    <div class="card w-25" >
+    <div class="card w-25 m-3" >
         Хелло
     </div>
 </div>
