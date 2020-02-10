@@ -1,5 +1,5 @@
 "use strict";
-import login from 'js/login.js';
+//import showLogin from './login.js';
 //navigation menu - нажатие на кнопку "Новые книги"
 document.getElementById('menu1').onclick=function (){
     toogleActiveLink("menu1"); // делает текст нажатой ссылки жирным (css класс "active")
@@ -20,19 +20,13 @@ document.getElementById('menu2').onclick=function (){
 document.getElementById('menu3').onclick=function (){
     toogleActiveLink("menu3");
 };
-document.getElementById('menu4').onclick=function (){
-    toogleActiveLink("menu4");
+document.getElementById('enter').onclick=function (){
+    toogleActiveLink("enter");
 };
 
 function toogleActiveLink(elementId){
     let activeElement = document.getElementById(elementId);
-    let passiveElements = [
-        document.getElementById('menu1'),
-        document.getElementById('menu2'),
-        document.getElementById('menu3'),
-        document.getElementById('menu4')
-        
-    ];
+    let passiveElements = document.getElementsByClassName('nav-link');
     for(let i = 0;i < passiveElements.length; i++){
         if(activeElement === passiveElements[i]){
             passiveElements[i].classList.add("active");
@@ -43,6 +37,7 @@ function toogleActiveLink(elementId){
         }
     }
 }
+
 //Возвращает ожидание при статусе ответа 200 - 300, иначе возвращает ошибку,
 // которую прислал сервер в ответе
 function status(response) {  
@@ -52,10 +47,12 @@ function status(response) {
     return Promise.reject(new Error(response.statusText))  
   }  
 }
+
 // Получает ответ в формате Json и формирует из него js объект
 function json(response) {  
   return response.json();
 };
+
 function printListNewBooks(data){
     let content = document.getElementById('content');
     let cards = '';
@@ -71,4 +68,34 @@ function printListNewBooks(data){
     }
     content.innerHTML = cards;
 }
+function showLogin(){
+    document.getElementById("enter").onclick = function (){
+        document.getElementById("content").innerHTML =
+                `<div class="row justify-content-center">
+                    <h1>Вход в систему</h1>
+                    <form action="login" onsubmit="false" method="POST">
+                      <div class="form-group">
+                        <label for="login">Логин:</label>
+                        <input type="text" class="form-control" id="login" name="login" aria-describedby="emailHelp" placeholder="Enter email">
+                      </div>
+                      <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                      </div>
+                      <button type="button" id="enter" class="btn btn-primary">Войти</button>
+                    </form>
+                    <h4>У вас нет логина? <a href="newReader">Зарегистрируйтесь</a></h4>
+                </div>`;
+    }
+}
+function auth(){
+    let login = document.getElementById('login');
+    let password = document.getElementById('password');
+    let data = {
+        'login': login,
+        'passwor': password
+    }
+    //fetch('loginJson',)
+}
+
 

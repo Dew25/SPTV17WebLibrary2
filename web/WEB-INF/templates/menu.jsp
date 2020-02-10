@@ -12,7 +12,7 @@
                       <a style="color:white;" class="nav-link" id="menu3" href="#">Link</a>
                     </li>
                     <li class="nav-item">
-                      <a style="color:white;" class="nav-link " id="menu4" href="#">Вход</a>
+                      <a style="color:white;" class="nav-link " id="enter" href="#">Вход</a>
                     </li>
                 </ul>
             </div>

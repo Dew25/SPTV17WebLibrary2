@@ -1,5 +1,7 @@
-export function showLogin(){
-    document.getElementById("menu4").onclick = function (){
+export {showLogin,auth};
+
+function showLogin(){
+    document.getElementById("enter").onclick = function (){
         document.getElementById("content").innerHTML =
                 `<div class="row justify-content-center">
                     <h1>Вход в систему</h1>
@@ -17,5 +19,14 @@ export function showLogin(){
                     <h4>У вас нет логина? <a href="newReader">Зарегистрируйтесь</a></h4>
                 </div>`;
     }
+}
+function auth(){
+    let login = document.getElementById('login');
+    let password = document.getElementById('password');
+    let data = {
+        'login': login,
+        'passwor': password
+    }
+    //fetch('loginJson',)
 }
 
