@@ -1,5 +1,5 @@
-"use strict";
-//import showLogin from './login.js';
+import {showLogin} from './login.js';
+export {json,status};
 //navigation menu - нажатие на кнопку "Новые книги"
 document.getElementById('menu1').onclick=function (){
     toogleActiveLink("menu1"); // делает текст нажатой ссылки жирным (css класс "active")
@@ -31,6 +31,7 @@ document.getElementById('menu3').onclick=function (){
 };
 document.getElementById('enter').onclick=function (){
     toogleActiveLink("enter");
+    showLogin();
 };
 
 function toogleActiveLink(elementId){
@@ -80,60 +81,33 @@ function printListNewBooks(data){
 function printListCustomers(data){
     let content = document.getElementById('content');
     let cards = '';
-        let listAddress = '{';
+        let listAddress = '';
         for(let i=0;i<data.customers.length;i++){
             for(let j = 0; j < data.customers[i].address.length; j++){
+                listAddress+=(+j+1)+'. Страна: ';
                 listAddress+=data.customers[i].address[j].cantry;
-                listAddress+=', ';
+                listAddress+=', город: ';
                 listAddress+=data.customers[i].address[j].city;
-                listAddress+=', ';
+                listAddress+=', улица: ';
                 listAddress+=data.customers[i].address[j].street;
-                listAddress+=', ';
+                listAddress+=', дом: ';
                 listAddress+=data.customers[i].address[j].house;
-                listAddress+=', ';
+                listAddress+=', кв.: ';
                 listAddress+=data.customers[i].address[j].room;
-                listAddress+='},';
+                listAddress+='.<br>';
             }
             cards +=
             `<div class="card w-30 m-3" >
                 <div class="card-body">
                     <h5 class="card-title">${data.customers[i].firstname} ${data.customers[i].lastname}</h5>
-                    <p class="card-text">Родился: ${data.customers[i].day}.${data.customers[i].month}.${data.customers[i].year}г. Телефон: ${data.customers[i].phone} </p>
-                    <p class="card-text">Адресс: ${listAddress}</p>
+                    <p class="card-text">Родился: ${data.customers[i].day}.${data.customers[i].month}.${data.customers[i].year} г. <br>Телефон: ${data.customers[i].phone} </p>
+                    <p class="card-text">Адрес проживания:<br>${listAddress}</p>
                     <a href="buyBook?customerId=${data.customers[i].id}" class="btn btn-primary">Изменить данные</a>
                 </div>
             </div>`;
         }
     content.innerHTML = cards;
 }
-function showLogin(){
-    document.getElementById("enter").onclick = function (){
-        document.getElementById("content").innerHTML =
-                `<div class="row justify-content-center">
-                    <h1>Вход в систему</h1>
-                    <form action="login" onsubmit="false" method="POST">
-                      <div class="form-group">
-                        <label for="login">Логин:</label>
-                        <input type="text" class="form-control" id="login" name="login" aria-describedby="emailHelp" placeholder="Enter email">
-                      </div>
-                      <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                      </div>
-                      <button type="button" id="enter" class="btn btn-primary">Войти</button>
-                    </form>
-                    <h4>У вас нет логина? <a href="newReader">Зарегистрируйтесь</a></h4>
-                </div>`;
-    }
-}
-function auth(){
-    let login = document.getElementById('login');
-    let password = document.getElementById('password');
-    let data = {
-        'login': login,
-        'passwor': password
-    }
-    //fetch('loginJson',)
-}
+
 
 
