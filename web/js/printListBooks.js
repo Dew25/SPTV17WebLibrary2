@@ -9,7 +9,6 @@ function getBooks(){
             console.log('Request succeeded with JSON response', data);  //вывод в консоль для дебага
           });
 }
-
 function printListNewBooks(data){
     let content = document.getElementById('content');
     

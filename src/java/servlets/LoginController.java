@@ -38,7 +38,8 @@ import session.UserFacade;
  */
 @WebServlet(name = "LoginController",  urlPatterns = {
     "/loginJson",
-    "/logout",
+    "/logoutJson",
+    
     
 })
 public class LoginController extends HttpServlet {
@@ -108,8 +109,20 @@ public class LoginController extends HttpServlet {
                 }
                 break;
             case "/logoutJson":
-                
+                json = "";
+                if(session != null){
+                    session.invalidate();
+                }
+                job.add("authStatus", "false")
+                        .add("user", "null")
+                        .add("token","null");
+                try(Writer writer =new StringWriter()) {
+                    Json.createWriter(writer).write(job.build());
+                    json = writer.toString(); 
+                    
+                  }
                 break;
+               
         }
         
         try (PrintWriter out = response.getWriter()) {

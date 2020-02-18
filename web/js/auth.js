@@ -1,7 +1,9 @@
 
-import {postHttp} from './http.js';
+import {postHttp,getHttp} from './http.js';
 import {getBooks} from './printListBooks.js';
-export {showLogin};
+
+export {showLogin, logout};
+
 function showLogin(){
     let cards = '<div class="w-100 d-flex justify-content-center">';
     cards+=
@@ -29,7 +31,7 @@ function auth(){
     }
     postHttp('loginJson',data)
           .then(function(response) {  // response содержит ответ сервера преобразованный в js объект 
-            if(response.authStatus){
+            if(response.authStatus==='true'){
               localStorage.setItem('token',response.token);
               localStorage.setItem('user',response.user);
               getBooks();
@@ -41,6 +43,26 @@ function auth(){
               printLoginForm();
               document.getElementById('showLogin').style.display = 'block';
               document.getElementById('sysout').style.display = 'none';
+            }
+            console.log('Request succeeded with JSON response', response);  
+          })
+}
+function logout(){
+    getHttp('logoutJson')
+          .then(function(response) {  // response содержит ответ сервера преобразованный в js объект 
+            if(response.authStatus === 'false'){
+              if(localStorage.getItem('token') !== null){
+                  localStorage.removeItem('token');
+              }
+              if(localStorage.getItem('user') !== null){
+                  localStorage.removeItem('user');
+              }
+              getBooks();
+              document.getElementById('info').innerHTML = 'Вы вышли';
+              document.getElementById('showLogin').style.display = 'block';
+              document.getElementById('sysout').style.display = 'none';
+            }else{
+              document.getElementById('info').innerHTML = 'Ошибка при выходе пользователя';
             }
             console.log('Request succeeded with JSON response', response);  
           })

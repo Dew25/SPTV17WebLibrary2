@@ -1,7 +1,7 @@
 
 import {getBooks} from './printListBooks.js';
 import {getReaders} from './printReaders.js';
-import {showLogin} from './auth.js';
+import {showLogin,logout} from './auth.js';
 
 //navigation menu - нажатие на кнопку "Новые книги"
 document.getElementById('showNewBooks').onclick=function (){
@@ -14,6 +14,7 @@ document.getElementById('showReaders').onclick=function (){
 };
 document.getElementById('sysout').onclick=function (){
     toogleActiveLink("sysout");
+    logout();
 };
 document.getElementById('showLogin').onclick=function (){
     toogleActiveLink("showLogin");
