@@ -5,8 +5,13 @@ export {getReaders};
 function getReaders(){
    getHttp("getListCustomers")
         .then(function(data) {  // data содержит ответ сервера преобразованный в js объект 
-            printListCustomers(data); // запускается функция с параметром
-            console.log('Request succeeded with JSON response', data);  //вывод в консоль для дебага
+            if(data.authStatus === 'true'){
+                printListCustomers(data); // запускается функция с параметром
+                console.log('Request succeeded with JSON response', data);  //вывод в консоль для дебага 
+            }else{
+                document.getElementById('info').innerHTML = 'У вас нет прав, авторизуйтесь';
+            }
+            
           })
 }
 function printListCustomers(data){

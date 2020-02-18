@@ -7,6 +7,7 @@ package servlets;
 
 import entity.Book;
 import entity.Customer;
+import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -22,8 +23,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import jsoncreator.BookJsonBuilder;
 import jsoncreator.CustomerJsonBuilder;
+import jsoncreator.UserJsonBuilder;
 import session.BookFacade;
 import session.CustomerFacade;
 
@@ -32,7 +35,7 @@ import session.CustomerFacade;
  * @author user
  */
 @WebServlet(name = "UserController", loadOnStartup = 1, urlPatterns = {
-    "/getListNewBooks",
+    
     "/getListCustomers",
     
 })
@@ -52,32 +55,53 @@ public class UserController extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("UTF-8");
+        JsonArrayBuilder jab = Json.createArrayBuilder();
+        JsonObjectBuilder job = Json.createObjectBuilder();
         String json = "";
+        HttpSession session = request.getSession(false);
+        if(session == null){
+            job.add("authStatus", "false")
+                .add("user", "null")
+                .add("token","null");
+            try(Writer writer =new StringWriter()) {
+                Json.createWriter(writer).write(job.build());
+                json = writer.toString(); 
+            }
+            try (PrintWriter out = response.getWriter()) {
+                out.println(json);        
+            }
+            return;
+        }
+        User user = (User) session.getAttribute("user");
+        if(user == null){
+            job.add("authStatus", "false")
+                .add("user", "null")
+                .add("token","null");
+            try(Writer writer =new StringWriter()) {
+                Json.createWriter(writer).write(job.build());
+                json = writer.toString(); 
+            }
+            try (PrintWriter out = response.getWriter()) {
+                out.println(json);        
+            }
+            return;
+        }
+        UserJsonBuilder ujb = new UserJsonBuilder();
+        JsonObject jsonUser = ujb.createJsonObject(user);
         String path = request.getServletPath();
         switch (path) {
-            case "/getListNewBooks":
-                List<Book> listNewBooks = bookFacade.findNewBooks();
-                BookJsonBuilder bookJsonBuilder = new BookJsonBuilder();
-                JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
-                for(Book book : listNewBooks){
-                    arrayBuilder.add(bookJsonBuilder.createJsonObject(book));
-                }
-                JsonObjectBuilder jsonBooksBuilder = Json.createObjectBuilder();
-                jsonBooksBuilder.add("books", arrayBuilder);
-                try(Writer writer =new StringWriter()) {
-                  Json.createWriter(writer).write(jsonBooksBuilder.build());
-                  json = writer.toString(); 
-                }
-                break;
             case "/getListCustomers":
                 List<Customer> listCustomers = customerFacade.findAll();
-                arrayBuilder = Json.createArrayBuilder();
+                jab = Json.createArrayBuilder();
                 CustomerJsonBuilder cjb = new CustomerJsonBuilder();
                 for(Customer c : listCustomers){
-                    arrayBuilder.add(cjb.createJsonObject(c));
+                    jab.add(cjb.createJsonObject(c));
                 }
                 JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
-                jsonObjectBuilder.add("customers", arrayBuilder);
+                jsonObjectBuilder.add("customers", jab)
+                        .add("authStatus","true")
+                        .add("user", jsonUser)
+                        .add("token", session.getId());
                 try(Writer writer =new StringWriter()) {
                   Json.createWriter(writer).write(jsonObjectBuilder.build());
                   json = writer.toString(); 

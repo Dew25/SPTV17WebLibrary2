@@ -39,11 +39,12 @@ import session.UserFacade;
 @WebServlet(name = "LoginController",  urlPatterns = {
     "/loginJson",
     "/logoutJson",
+    "/getListNewBooks",
     
     
 })
 public class LoginController extends HttpServlet {
- 
+    @EJB private BookFacade bookFacade;
     @EJB private UserFacade userFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -122,7 +123,20 @@ public class LoginController extends HttpServlet {
                     
                   }
                 break;
-               
+             case "/getListNewBooks":
+                List<Book> listNewBooks = bookFacade.findNewBooks();
+                BookJsonBuilder bookJsonBuilder = new BookJsonBuilder();
+                JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+                for(Book book : listNewBooks){
+                    arrayBuilder.add(bookJsonBuilder.createJsonObject(book));
+                }
+                JsonObjectBuilder jsonBooksBuilder = Json.createObjectBuilder();
+                jsonBooksBuilder.add("books", arrayBuilder);
+                try(Writer writer =new StringWriter()) {
+                  Json.createWriter(writer).write(jsonBooksBuilder.build());
+                  json = writer.toString(); 
+                }
+                break;   
         }
         
         try (PrintWriter out = response.getWriter()) {
