@@ -1,16 +1,20 @@
 
-import {getBooks} from './printListBooks.js';
-import {getReaders} from './printReaders.js';
-import {showLogin,logout} from './auth.js';
+import {listBooks, addNewBook} from './BookModule.js';
+import {getReaders} from './ReaderModule.js';
+import {showLogin,logout} from './AuthModule.js';
 
 //navigation menu - нажатие на кнопку "Новые книги"
 document.getElementById('showNewBooks').onclick=function (){
     toogleActiveLink("showNewBooks"); // делает текст нажатой ссылки жирным (css класс "active")
-    getBooks();
+    listBooks();
 };
 document.getElementById('showReaders').onclick=function (){
     toogleActiveLink("showReaders");
     getReaders();
+};
+document.getElementById('addNewBook').onclick=function (){
+    toogleActiveLink("addNewBook");
+    addNewBook();
 };
 document.getElementById('sysout').onclick=function (){
     toogleActiveLink("sysout");

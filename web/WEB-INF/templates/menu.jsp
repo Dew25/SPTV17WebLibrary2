@@ -9,6 +9,9 @@
                       <a style="color:white;" class="nav-link" id="showReaders" href="#">Список пользователей</a>
                     </li>
                     <li class="nav-item">
+                      <a style="color:white;  display: none;" class="nav-link" id="addNewBook" href="#">Добавить книгу</a>
+                    </li>
+                    <li class="nav-item">
                       <a style="color:white; display: none;" class="nav-link" id="sysout" href="#">Выход</a>
                     </li>
                     <li class="nav-item">

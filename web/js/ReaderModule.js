@@ -1,4 +1,4 @@
-import {getHttp} from './http.js';
+import {getHttp} from './HttpModule.js';
 
 export {getReaders};
 
@@ -16,7 +16,6 @@ function getReaders(){
 }
 function printListCustomers(data){
     let content = document.getElementById('content');
-    
     let cards = '';
         let listAddress = '{';
         for(let i=0;i<data.customers.length;i++){
@@ -33,7 +32,7 @@ function printListCustomers(data){
                 listAddress+='},';
             }
             cards +=
-            `<div class="card w-30 m-3" >
+            `<div class="card w-30 m-3 d-flex justify-content-between" style="max-width:300px">
                 <div class="card-body">
                     <h5 class="card-title">${data.customers[i].firstname} ${data.customers[i].lastname}</h5>
                     <p class="card-text">Родился: ${data.customers[i].day}.${data.customers[i].month}.${data.customers[i].year}г. Телефон: ${data.customers[i].phone} </p>

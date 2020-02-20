@@ -1,6 +1,6 @@
 
-import {postHttp,getHttp} from './http.js';
-import {getBooks} from './printListBooks.js';
+import {postHttp,getHttp} from './HttpModule.js';
+import {listBooks} from './BookModule.js';
 
 export {showLogin, logout};
 
@@ -30,19 +30,21 @@ function auth(){
         'password': password
     }
     postHttp('loginJson',data)
-          .then(function(response) {  // response содержит ответ сервера преобразованный в js объект 
-            if(response.authStatus==='true'){
+          .then(function(response){ // response содержит ответ сервера преобразованный в js объект 
+            if(response.authStatus === 'true'){
               localStorage.setItem('token',response.token);
               localStorage.setItem('user',response.user);
-              getBooks();
+              listBooks();
               document.getElementById('info').innerHTML = 'Вы вошли как '+response.user.login;
               document.getElementById('showLogin').style.display = 'none';
               document.getElementById('sysout').style.display = 'block';
+              document.getElementById('addNewBook').style.display = 'block';
             }else{
               document.getElementById('info').innerHTML = 'Войти не удалось';
               printLoginForm();
               document.getElementById('showLogin').style.display = 'block';
               document.getElementById('sysout').style.display = 'none';
+              document.getElementById('addNewBook').style.display = 'none';
             }
             console.log('Request succeeded with JSON response', response);  
           })
@@ -57,10 +59,11 @@ function logout(){
               if(localStorage.getItem('user') !== null){
                   localStorage.removeItem('user');
               }
-              getBooks();
+              listBooks();
               document.getElementById('info').innerHTML = 'Вы вышли';
               document.getElementById('showLogin').style.display = 'block';
               document.getElementById('sysout').style.display = 'none';
+              document.getElementById('addNewBook').style.display = 'none';
             }else{
               document.getElementById('info').innerHTML = 'Ошибка при выходе пользователя';
             }

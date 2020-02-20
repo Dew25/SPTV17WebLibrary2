@@ -12,12 +12,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
+import javax.json.JsonReader;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -37,6 +40,7 @@ import session.CustomerFacade;
 @WebServlet(name = "UserController", loadOnStartup = 1, urlPatterns = {
     
     "/getListCustomers",
+    "/addBook",
     
 })
 public class UserController extends HttpServlet {
@@ -71,7 +75,7 @@ public class UserController extends HttpServlet {
                 out.println(json);        
             }
             return;
-        }
+        };
         User user = (User) session.getAttribute("user");
         if(user == null){
             job.add("authStatus", "false")
@@ -85,7 +89,7 @@ public class UserController extends HttpServlet {
                 out.println(json);        
             }
             return;
-        }
+        };
         UserJsonBuilder ujb = new UserJsonBuilder();
         JsonObject jsonUser = ujb.createJsonObject(user);
         String path = request.getServletPath();
@@ -107,8 +111,30 @@ public class UserController extends HttpServlet {
                   json = writer.toString(); 
                 }
                 break;
+            case "/addBook":
+                JsonReader jsonReader = Json.createReader(request.getReader());
+                JsonObject jsonObject = jsonReader.readObject();
+                String caption = jsonObject.getString("caption");
+                String author = jsonObject.getString("author");
+                String publishedYear = jsonObject.getString("publishedYear");
+                String cover = jsonObject.getString("cover");
+                Date date = Calendar.getInstance().getTime();
+                String textBook = jsonObject.getString("textBook");
+                Book book = new Book(caption, author, Integer.parseInt(publishedYear), cover, textBook);
+                bookFacade.create(book);
+                BookJsonBuilder bjb = new BookJsonBuilder();
+                jsonObjectBuilder = Json.createObjectBuilder();
+                jsonObjectBuilder
+                        .add("actionStatus", "true")
+                        .add("book",bjb.createJsonObject(book))
+                        .add("user", jsonUser)
+                        .add("token", session.getId());
+                try(Writer writer =new StringWriter()){
+                  Json.createWriter(writer).write(jsonObjectBuilder.build());
+                  json = writer.toString(); 
+                }
+                break;
         }
-        
         try (PrintWriter out = response.getWriter()) {
           out.println(json);        
         }
