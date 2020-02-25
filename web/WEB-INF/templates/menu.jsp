@@ -12,6 +12,9 @@
                       <a style="color:white;  display: none;" class="nav-link" id="addNewBook" href="#">Добавить книгу</a>
                     </li>
                     <li class="nav-item">
+                      <a style="color:white;  display: none;" class="nav-link" id="addNewCustomerForm" href="#">Добавить пользователя</a>
+                    </li>
+                    <li class="nav-item">
                       <a style="color:white; display: none;" class="nav-link" id="sysout" href="#">Выход</a>
                     </li>
                     <li class="nav-item">

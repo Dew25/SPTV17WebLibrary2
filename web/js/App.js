@@ -1,7 +1,7 @@
 
 import {listBooks, addNewBook} from './BookModule.js';
-import {getReaders} from './ReaderModule.js';
-import {showLogin,logout} from './AuthModule.js';
+import {getReaders,addNewCustomerForm} from './ReaderModule.js';
+
 
 //navigation menu - нажатие на кнопку "Новые книги"
 document.getElementById('showNewBooks').onclick=function (){
@@ -15,6 +15,10 @@ document.getElementById('showReaders').onclick=function (){
 document.getElementById('addNewBook').onclick=function (){
     toogleActiveLink("addNewBook");
     addNewBook();
+};
+document.getElementById('addNewCustomerForm').onclick=function (){
+    toogleActiveLink("addNewCustomerForm");
+    addNewCustomerForm();
 };
 document.getElementById('sysout').onclick=function (){
     toogleActiveLink("sysout");

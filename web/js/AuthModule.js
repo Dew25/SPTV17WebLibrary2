@@ -1,6 +1,7 @@
 
 import {postHttp,getHttp} from './HttpModule.js';
 import {listBooks} from './BookModule.js';
+import {printNewCustomerForm} from '.ReaderModule.js';
 
 export {showLogin, logout};
 
@@ -14,12 +15,14 @@ function showLogin(){
           <p class="card-text d-flex justify-content-between">Пароль: <input class="ml-2" type="text" id="password"></p>
           <p class="card-text"><button class="btn btn-light w-100" type="button" id="btnEnter">Войти</button</p>
         </div>
+        <p class="card-text d-flex justify-content-center"><a href="#" id="newCustomer">Зарегистрироваться</a></p>
       </div>`;
     cards +='</div>';
   document.getElementById('content').innerHTML = cards;
   document.getElementById('btnEnter').onclick = function(){
     auth();
   };
+  document.getElementById('newCustomer').addEventListener('click',printNewCustomerForm);
 }
 
 function auth(){
@@ -49,6 +52,7 @@ function auth(){
             console.log('Request succeeded with JSON response', response);  
           })
 }
+
 function logout(){
     getHttp('logoutJson')
           .then(function(response) {  // response содержит ответ сервера преобразованный в js объект 
