@@ -1,7 +1,7 @@
 
 import {postHttp,getHttp} from './HttpModule.js';
 import {listBooks} from './BookModule.js';
-import {printNewCustomerForm} from '.ReaderModule.js';
+import {printNewCustomerForm} from './ReaderModule.js';
 
 export {showLogin, logout};
 

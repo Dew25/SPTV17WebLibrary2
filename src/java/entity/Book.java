@@ -25,7 +25,7 @@ public class Book implements Serializable {
     private Long id;
     private String caption;
     private String author;
-    private int publishedYear;
+    private Integer publishedYear;
     private String cover;
     private String text;
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
@@ -35,7 +35,7 @@ public class Book implements Serializable {
     public Book() {
     }
 
-    public Book(String caption, String author, int publishedYear, String cover, String text) {
+    public Book(String caption, String author, Integer publishedYear, String cover, String text) {
         this.caption = caption;
         this.author = author;
         this.publishedYear = publishedYear;
@@ -69,11 +69,11 @@ public class Book implements Serializable {
         this.author = author;
     }
 
-    public int getPublishedYear() {
+    public Integer getPublishedYear() {
         return publishedYear;
     }
 
-    public void setPublishedYear(int publishedYear) {
+    public void setPublishedYear(Integer publishedYear) {
         this.publishedYear = publishedYear;
     }
 

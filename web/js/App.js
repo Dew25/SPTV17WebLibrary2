@@ -1,7 +1,7 @@
 
 import {listBooks, addNewBook} from './BookModule.js';
-import {getReaders,addNewCustomerForm} from './ReaderModule.js';
-
+import {getReaders,printNewCustomerForm} from './ReaderModule.js';
+import {showLogin} from './AuthModule.js';
 
 //navigation menu - нажатие на кнопку "Новые книги"
 document.getElementById('showNewBooks').onclick=function (){
