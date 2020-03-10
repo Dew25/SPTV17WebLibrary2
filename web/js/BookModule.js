@@ -33,27 +33,35 @@ export {listBooks, addNewBook};
     }
     function addNewBook(){
         let formNewBook =
-        `<div class="card w-85 m-3 d-flex justify-content-between" >
-                <div class="card-body>
-                    <h5 class="card-title">Заполните все поля:</h5>
-                    <p class="card-text">Название книги: 
-                        <input type="text" id="caption" value="">
-                    </p>
-                    <p class="card-text">Автор книги: 
-                        <input type="text" id="author" value="">
-                    </p>
-                    <p class="card-text">Год издания: 
-                        <input type="text" id="publishedYear" value="">
-                    </p>
-                    <p class="card-text">Обложка книги: 
-                        <input type="text" id="cover" value="">
-                    </p>
-                    <p class="card-text">Текст книги: 
-                        <input type="text" id="textBook" value="">
-                    </p>
-                    <button class="btn btn-primary" id="btnAddBook">Добавить книгу</button>
-                </div>
-            </div>`;
+                `<div class="card w-50">
+                    <div class="card-body">
+                      <h5 class="card-title w-100 text-center">Новая Книга</h5>
+                      <div class="card-text">
+                        <div class="form-group">
+                          <label for="caption">Название книги</label>
+                          <input type="text" class="form-control" id="caption">
+                        </div>
+                        <div class="form-group">
+                          <label for="author">Автор книги</label>
+                          <input type="text" class="form-control" id="author">
+                        </div>
+                        <div class="form-group">
+                          <label for="publishedYear">Год издания</label>
+                          <input type="text" class="form-control" id="publishedYear">
+                        </div>
+                        <div class="form-group">
+                          <label for="cover">Обложка книги</label>
+                          <input type="text" class="form-control" id="cover">
+                        </div>
+                        <div class="form-group">
+                          <label for="textBook">Текст книги</label>
+                          <input type="text" class="form-control" id="textBook">
+                        </div>
+                        
+                        <button class="btn bg-primary w-100" type="button" id="btnAddBook">Добавить</button>
+                      </div>
+                    </div>
+                </div>`;
         document.getElementById('content').innerHTML = formNewBook;
         document.getElementById('btnAddBook').onclick = function(){
             createBook();

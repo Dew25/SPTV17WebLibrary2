@@ -5,6 +5,7 @@
  */
 package servlets;
 
+import entity.Address;
 import entity.Book;
 import entity.Customer;
 import entity.User;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.json.Json;
@@ -28,6 +30,7 @@ import javax.servlet.http.HttpSession;
 import jsoncreator.BookJsonBuilder;
 import jsoncreator.CustomerJsonBuilder;
 import jsoncreator.UserJsonBuilder;
+import session.AddressFacade;
 import session.BookFacade;
 import session.CustomerFacade;
 import session.UserFacade;
@@ -40,12 +43,15 @@ import session.UserFacade;
     "/loginJson",
     "/logoutJson",
     "/getListNewBooks",
+    "/createCustomerJson",
     
     
 })
 public class LoginController extends HttpServlet {
     @EJB private BookFacade bookFacade;
     @EJB private UserFacade userFacade;
+    @EJB private AddressFacade addressFacade;
+    @EJB private CustomerFacade customerFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -136,12 +142,53 @@ public class LoginController extends HttpServlet {
                   Json.createWriter(writer).write(jsonBooksBuilder.build());
                   json = writer.toString(); 
                 }
-                break;   
+                break; 
+             case "/createCustomerJson":
+                jsonReader = Json.createReader(request.getReader());
+                jsonObject = jsonReader.readObject();
+                String firstname = jsonObject.getString("firstname");
+                String lastname = jsonObject.getString("lastname");
+                String day = jsonObject.getString("day");
+                String month = jsonObject.getString("month");
+                String year = jsonObject.getString("year");
+                String cantry = jsonObject.getString("cantry");
+                String city = jsonObject.getString("city");
+                String street = jsonObject.getString("street");
+                String house = jsonObject.getString("house");
+                String room = jsonObject.getString("room");
+                String phone = jsonObject.getString("phone");
+                login = jsonObject.getString("login");
+                password = jsonObject.getString("password");
+                Address address = new Address(cantry, city, street, house, room);
+                addressFacade.create(address);
+                List<Address> listAddreses = new ArrayList<>();
+                listAddreses.add(address);
+                Customer customer = new Customer(
+                        firstname, 
+                        lastname, 
+                        Integer.parseInt(day), 
+                        Integer.parseInt(month), 
+                        Integer.parseInt(year), 
+                        listAddreses, 
+                        phone);
+                customerFacade.create(customer);
+                user = new User(login, password, "yes", true, customer);
+                userFacade.create(user);
+                ujb = new UserJsonBuilder();
+                job.add("actionStatus", "true")
+                        .add("user", ujb.createJsonObject(user));
+                try(Writer writer =new StringWriter()) {
+                  Json.createWriter(writer).write(job.build());
+                  json = writer.toString(); 
+                }
+                break;
         }
-        
-        try (PrintWriter out = response.getWriter()) {
-          out.println(json);        
+        if(json != ""){
+            try (PrintWriter out = response.getWriter()) {
+              out.println(json);        
+            }
         }
+ 
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

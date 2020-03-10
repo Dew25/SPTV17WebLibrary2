@@ -1,4 +1,5 @@
 import {getHttp,postHttp} from './HttpModule.js';
+import {listBooks} from './BookModule.js';
 
 export {getReaders,printNewCustomerForm};
 
@@ -17,8 +18,9 @@ function getReaders(){
 function printListCustomers(data){
     let content = document.getElementById('content');
     let cards = '';
-        let listAddress = '{';
+        
         for(let i=0;i<data.customers.length;i++){
+            let listAddress = '{';
             for(let j = 0; j < data.customers[i].address.length; j++){
                 listAddress+=data.customers[i].address[j].cantry;
                 listAddress+=', ';
@@ -45,26 +47,68 @@ function printListCustomers(data){
 }
 function printNewCustomerForm(){
     let cards = 
-`<div class="card" style="width: 65rem;">
-  <div class="card-body d-flex justify-content-center">
-    <h5 class="card-title">Новый пользователь</h5>
-    <p class="card-text d-flex justify-content-between">Имя: <input class="ml-2" type="text" id="firstname"></p>
-    <p class="card-text d-flex justify-content-between">Фамилия: <input class="ml-2" type="text" id="lastname"></p>
-    <p class="card-text d-flex justify-content-between">День рождения: <input class="ml-2" type="text" id="day"></p>
-    <p class="card-text d-flex justify-content-between">Месяц рождения: <input class="ml-2" type="text" id="month"></p>
-    <p class="card-text d-flex justify-content-between">Год рождения: <input class="ml-2" type="text" id="year"></p>
-    <p class="card-text d-flex justify-content-between">Страна: <input class="ml-2" type="text" id="cantry"></p>
-    <p class="card-text d-flex justify-content-between">Город: <input class="ml-2" type="text" id="city"></p>
-    <p class="card-text d-flex justify-content-between">Улица: <input class="ml-2" type="text" id="street"></p>
-    <p class="card-text d-flex justify-content-between">Дом: <input class="ml-2" type="text" id="house"></p>
-    <p class="card-text d-flex justify-content-between">Квартира: <input class="ml-2" type="text" id="room"></p>
-    <p class="card-text d-flex justify-content-between">Логин: <input class="ml-2" type="text" id="login"></p>
-    <p class="card-text d-flex justify-content-between">Пароль: <input class="ml-2" type="text" id="password"></p>
-    <p class="card-text"><button class="btn btn-light w-100" type="button" id="btnAddCustomer">Добавить</button</p>
-  </div>
-</div>`;
-  document.getElementById('content').innerHTML = cards;
-  document.getElementById('btnAddCustomer').onclick = function(){
+                `<div class="card w-50">
+                    <div class="card-body">
+                      <h5 class="card-title w-100 text-center">Новый пользователь</h5>
+                      <div class="card-text">
+                        <div class="form-group">
+                          <label for="firstname">Имя</label>
+                          <input type="text" class="form-control" id="firstname">
+                        </div>
+                        <div class="form-group">
+                          <label for="lastname">Фамилия</label>
+                          <input type="text" class="form-control" id="lastname">
+                        </div>
+                        <div class="form-group">
+                          <label for="day">День рождения</label>
+                          <input type="text" class="form-control" id="day">
+                        </div>
+                        <div class="form-group">
+                          <label for="month">Месяц рождения</label>
+                          <input type="text" class="form-control" id="month">
+                        </div>
+                        <div class="form-group">
+                          <label for="year">Год рождения</label>
+                          <input type="text" class="form-control" id="year">
+                        </div>
+                        <div class="form-group">
+                          <label for="cantry">Страна</label>
+                          <input type="text" class="form-control" id="cantry">
+                        </div>
+                        <div class="form-group">
+                          <label for="city">Город</label>
+                          <input type="text" class="form-control" id="city">
+                        </div>
+                        <div class="form-group">
+                          <label for="street">Улица</label>
+                          <input type="text" class="form-control" id="street">
+                        </div>
+                        <div class="form-group">
+                          <label for="house">Дом</label>
+                          <input type="text" class="form-control" id="house">
+                        </div>
+                        <div class="form-group">
+                          <label for="room">Квартира</label>
+                          <input type="text" class="form-control" id="room">
+                        </div>
+                        <div class="form-group">
+                          <label for="phone">Телефон</label>
+                          <input type="text" class="form-control" id="phone">
+                        </div>
+                        <div class="form-group">
+                          <label for="login">Логин</label>
+                          <input type="text" class="form-control" id="login">
+                        </div>
+                        <div class="form-group">
+                          <label for="password">Пароль</label>
+                          <input type="text" class="form-control" id="password">
+                        </div>
+                        <button class="btn bg-primary w-100" type="button" id="btnAddCustomer">Добавить</button>
+                      </div>
+                    </div>
+                </div>`;
+    document.getElementById('content').innerHTML = cards;
+    document.getElementById('btnAddCustomer').onclick = function(){
     createCustomer();
   };
 }
@@ -77,9 +121,11 @@ function createCustomer(){
     let cantry = document.getElementById('cantry').value;
     let city = document.getElementById('city').value;
     let street = document.getElementById('street').value;
+    let house = document.getElementById('house').value;
     let room = document.getElementById('room').value;
     let login = document.getElementById('login').value;
     let password = document.getElementById('password').value;
+    let phone = document.getElementById('phone').value;
     let customer = {
        "firstname": firstname,
        "lastname": lastname,
@@ -89,14 +135,15 @@ function createCustomer(){
        "cantry": cantry,
        "city": city,
        "street": street,
+       "house": house,
        "room": room,
+       "phone": phone,
        "login": login,
        "password": password,
     }
     postHttp('createCustomerJson',customer)
           .then(function(response){ // response содержит ответ сервера преобразованный в js объект 
-            if(response.authStatus === 'true'){
-              localStorage.setItem('token',response.token);
+            if(response.actionStatus === 'true'){
               localStorage.setItem('user',response.user);
               document.getElementById('info').innerHTML = 'Новый пользователь добавлен';
             }else{

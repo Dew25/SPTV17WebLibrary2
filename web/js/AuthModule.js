@@ -6,9 +6,9 @@ import {printNewCustomerForm} from './ReaderModule.js';
 export {showLogin, logout};
 
 function showLogin(){
-    let cards = '<div class="w-100 d-flex justify-content-center">';
-    cards+=
-     `<div class="card border-primary p-2" style="max-width: 30rem;">
+  document.getElementById('content').innerHTML = 
+   `<div class="w-100 d-flex justify-content-center">
+     <div class="card border-primary p-2" style="max-width: 30rem;">
         <div class="card-header text-center">Введите логин и пароль</div>
         <div class="card-body">
           <p class="card-text d-flex justify-content-between">Логин: <input class="ml-2" type="text" id="login"></p>
@@ -16,9 +16,8 @@ function showLogin(){
           <p class="card-text"><button class="btn btn-light w-100" type="button" id="btnEnter">Войти</button</p>
         </div>
         <p class="card-text d-flex justify-content-center"><a href="#" id="newCustomer">Зарегистрироваться</a></p>
-      </div>`;
-    cards +='</div>';
-  document.getElementById('content').innerHTML = cards;
+      </div>
+    </div>`;
   document.getElementById('btnEnter').onclick = function(){
     auth();
   };
@@ -55,7 +54,7 @@ function auth(){
 
 function logout(){
     getHttp('logoutJson')
-          .then(function(response) {  // response содержит ответ сервера преобразованный в js объект 
+          .then(function(response){  // response содержит ответ сервера преобразованный в js объект 
             if(response.authStatus === 'false'){
               if(localStorage.getItem('token') !== null){
                   localStorage.removeItem('token');
