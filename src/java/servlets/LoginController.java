@@ -34,6 +34,7 @@ import session.AddressFacade;
 import session.BookFacade;
 import session.CustomerFacade;
 import session.UserFacade;
+import util.EncryptPass;
 
 /**
  *
@@ -95,7 +96,9 @@ public class LoginController extends HttpServlet {
                       }
                     break;
                 }
-                if(!password.equals(user.getPassword())){
+                EncryptPass ep = new EncryptPass();
+                String criptPass = ep.getEncryptPass(password, user.getSalts());
+                if(!criptPass.equals(user.getPassword())){
                     job.add("authStatus", "false");
                     try(Writer writer =new StringWriter()) {
                         Json.createWriter(writer).write(job.build());
@@ -172,7 +175,11 @@ public class LoginController extends HttpServlet {
                         listAddreses, 
                         phone);
                 customerFacade.create(customer);
-                user = new User(login, password, "yes", true, customer);
+                //Здесь шифруем пароль!
+                ep = new EncryptPass();
+                String salts = ep.getSalts();
+                String cryptPassword = ep.getEncryptPass(password, salts);
+                user = new User(login, cryptPassword, salts, true, customer);
                 userFacade.create(user);
                 ujb = new UserJsonBuilder();
                 job.add("actionStatus", "true")

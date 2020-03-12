@@ -8,8 +8,19 @@
     </head>
     <body>
         <div class="container">
-            <div class="row" style="margin-bottom: 50px;">
-                <ul class="nav bg-primary justify-content-end" style="width: 100%">
+            <div class="row bg-primary" style="margin-bottom: 50px;">
+                     
+               <div class="w-100 d-flex">
+                   
+                <ul class="nav justify-content-start w-50" >
+                    <li class="nav-item">
+                      <span style="color:white;" class="nav-link " id="authUser"></span>
+                    </li>
+                 </ul>
+                 <ul class="nav justify-content-end" style="width: 100%">
+                    <li class="nav-item text-left">
+                      <span style="color:white;" class="nav-link " id="authUser"></span>
+                    </li>
                     <li class="nav-item">
                       <a style="color:white;" class="nav-link " id="showNewBooks" href="#">Новые книги</a>
                     </li>
@@ -28,7 +39,12 @@
                     <li class="nav-item">
                       <a style="color:white;" class="nav-link " id="showLogin" href="#">Вход</a>
                     </li>
-                </ul>
+                    <li class="nav-item">
+                      <span style="color:white;" class="nav-link " id="authUser"></span>
+                    </li>
+               </ul>
+              </div>
+                
             </div>
             <p id="info" class="w-100 text-center"></p>
             <div id="content" class="row p-5 justify-content-center"></div>

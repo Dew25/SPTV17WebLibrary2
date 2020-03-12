@@ -42,6 +42,24 @@ function toogleActiveLink(elementId){
         }
     }
 }
+authUserMenu();
+function authUserMenu(){
+    let user = null;
+    if(localStorage.getItem('user') !== null){
+        user = JSON.parse(localStorage.getItem('user'));
+        document.getElementById('showLogin').style.display = 'none';
+        document.getElementById('sysout').style.display = 'block';
+        document.getElementById('addNewBook').style.display = 'block';
+        document.getElementById('authUser').innerHTML = 'Привет, '+user.login;
+        
+    }else{
+        document.getElementById('showLogin').style.display ='block' ;
+        document.getElementById('sysout').style.display = 'none';
+        document.getElementById('addNewBook').style.display = 'none';
+        document.getElementById('authUser').innerHTML = '';
+    }
+    
+}
 
 
 
